@@ -1,0 +1,64 @@
+station,subdivision,zone,candidate_number,latitude,longitude,matched_name,osm_type,review_status
+Kengeri,,West,1,12.9103981,77.4842374,"Kengeri Police Station, Mysore Road, Hemmigepura, Bengaluru West City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560060, India",bus_stop,VERIFY BEFORE USE
+Kengeri,,West,2,12.9104413,77.4819132,"Kengeri Police Station, Mysore Road, Mylasandra, Bengaluru West City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560060, India",bus_stop,VERIFY BEFORE USE
+Kengeri,,West,3,12.9104906,77.4815428,"Kengeri Police Station, Mysore Road, Mylasandra, Bengaluru West City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560060, India",police,VERIFY BEFORE USE
+Yalahanka,,North,1,13.0954067,77.5938087,"Yelahanka Police Station, Yelahanka Road, Nyayanga Badavane, Bengaluru North City Corporation, Bengaluru, Yelahanka taluku, Bengaluru Urban, Karnataka, 560064, India",police,VERIFY BEFORE USE
+Yalahanka,,North,2,13.0945671,77.5942646,"Yelahanka Police Station, Yelahanka Road, Judicial Layout, Nyayanga Badavane, Bengaluru North City Corporation, Bengaluru, Yelahanka taluku, Bengaluru Urban, Karnataka, 560065, India",bus_stop,VERIFY BEFORE USE
+Yalahanka,,North,3,13.0947687,77.5944354,"Yelahanka Police Station, Yelahanka Road, Nyayanga Badavane, Bengaluru North City Corporation, Bengaluru, Yelahanka taluku, Bengaluru Urban, Karnataka, 560065, India",bus_stop,VERIFY BEFORE USE
+Int. Aiport,,North,,,,,,NOT FOUND
+K R Puram,,East,,,,,,NOT FOUND
+Whitefield,,East,1,12.9753972,77.7511488,"Whitefield Police Station -Office of the Deputy Commisionner, Whitefield Main Road, Prashanth Extension, Pattanduru Agrahara, S.M Krishna Ward, Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, 560066, India",police,VERIFY BEFORE USE
+Whitefield,,East,2,12.9942610,77.7571837,"Whitefield Traffic Police Station, Whitefield - Hoskote Road, Maithri Layout, Belathur, Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, 560067, India",police,VERIFY BEFORE USE
+Whitefield,,East,3,12.9950455,77.7578338,"A: Whitefield Traffic Police Station, SH35, Belathur, Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, 560067, India",subway_entrance,VERIFY BEFORE USE
+Kamakshipalya,,West,1,12.9879713,77.5402233,"Traffic Police Station Kamakshipalya, 4th Main Road, Sharada Colony, Basaveshwara Nagara, Bengaluru West City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560079, India",school,VERIFY BEFORE USE
+Electronic City,,South,,,,,,NOT FOUND
+Peenya,,North,1,13.0360107,77.5211853,"Peenya Police Station, Police Station Road, Peenya Industrial Area, Peenya, Bengaluru West City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560058, India",police,VERIFY BEFORE USE
+Chikkajala,,North,,,,,,NOT FOUND
+Bytarayanapura,,West,,,,,,NOT FOUND
+Hebbala,,North,,,,,,NOT FOUND
+Jalahalli,,North,1,13.0486481,77.5495673,"Jalahalli Police Station, HMT Main Road, BEL Colony, Gokula, HMT Ward, Bengaluru North City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560013, India",police,VERIFY BEFORE USE
+Jalahalli,,North,2,13.0489639,77.5499149,"Jalahalli Police Station, HMT Main Road, BEL Colony, Gokula, HMT Ward, Bengaluru North City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560013, India",bus_stop,VERIFY BEFORE USE
+K S Layout,,South,,,,,,NOT FOUND
+Hennuru,,North,,,,,,NOT FOUND
+Yashawanthapura,,North,1,13.0181912,77.5578127,"Yeshwanthpura Circle, 8th Main Road, Malleswaram, Malleshwaram, Bengaluru West City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560012, India",bus_stop,VERIFY BEFORE USE
+Thalagattapura,,South,,,,,,NOT FOUND
+Malleshwaram,,North,,,,,,NOT FOUND
+Hulimavu,,South,1,12.8766700,77.6000418,"Hulimavu Police Station, Cave Temple Road, Hulimavu, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560076, India",police,VERIFY BEFORE USE
+Rajajinagar,,North,1,12.9744861,77.5512501,"Magadi Road Police Station, Magadi Road, Rajajinagar 6th Block, Dr Rajkumar Ward, Bengaluru West City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560023, India",police,VERIFY BEFORE USE
+Airport,,East,,,,,,NOT FOUND
+Banashankari,,South,1,12.9229116,77.5650055,"Banashankari Police Station, 27th Cross Road, Ganesh Mandira Ward, Bengaluru West City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560070, India",police,VERIFY BEFORE USE
+Banasawadi,,East,,,,,,NOT FOUND
+Vijayanagar,,West,1,12.9707264,77.5377251,"Vijayanagar Police Station, Sha Shi Marulayya Road, Hosahalli, Bengaluru West City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560040, India",police,VERIFY BEFORE USE
+Micolayout,,South,,,,,,NOT FOUND
+Jayanagar,,South,1,12.9285653,77.5813657,"Jayanagar 4th Block Police Station, Vinayaka Devalaya Road, Jayanagar 4th Block, Byrasandra, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560011, India",police,VERIFY BEFORE USE
+Mahadevapura,,East,1,12.9968412,77.6928386,"Mahadevpura Police Station, Whitefield Road, Devasandra, Bengaluru East City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, 560048, India",police,VERIFY BEFORE USE
+Madivala,,South,,,,,,NOT FOUND
+HSR Layout,,South,,,,,,NOT FOUND
+Indiranagar,,East,1,12.9784912,77.6414337,"Indiranagar Police Station, Chinmaya Mission Hospital Road, Subedar Garden, Thippasandra, Indiranagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560038, India",bus_stop,VERIFY BEFORE USE
+Indiranagar,,East,2,12.9782853,77.6402106,"Indiranagar Police Station, Chinmaya Mission Hospital Road, Indiranagar 1st Stage, Hoysala Nagara Central, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560038, India",bus_stop,VERIFY BEFORE USE
+Indiranagar,,East,3,12.9781764,77.6409534,"Indiranagar Police Station, 100 Feet Road, Defence Colony, Indiranagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560038, India",bus_stop,VERIFY BEFORE USE
+Halasooru,,East,,,,,,NOT FOUND
+R T Nagar,,North,,,,,,NOT FOUND
+Adugodi,,South,1,12.9392272,77.6101711,"Adugodi Police Station, Hosur Road, Kormangala West, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560095, India",police,VERIFY BEFORE USE
+Adugodi,,South,2,12.9389789,77.6097002,"Adugodi Police Station, Hosur Road, Lakkasandra, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560029, India",bus_stop,VERIFY BEFORE USE
+Adugodi,,South,3,12.9400320,77.6094322,"Adugodi Police Station, Hosur Road, Kormangala West, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560095, India",bus_stop,VERIFY BEFORE USE
+Basavanagudi,,South,1,12.9415839,77.5738804,"Basavanagudi Police Station, Krishna Rajendra Road, Gandhi Bazaar, Basavanagudi, Sunkenahalli, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560004, India",bus_stop,VERIFY BEFORE USE
+Basavanagudi,,South,2,12.9411299,77.5736696,"Basavanagudi Police Station, Krishna Rajendra Road, N.R Colony, Bengaluru West City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560004, India",bus_stop,VERIFY BEFORE USE
+Chickpet,,West,,,,,,NOT FOUND
+W.Garden,,West,,,,,,NOT FOUND
+Bellanduru,,South,1,12.9189675,77.6679657,"Bellanduru Police Station, 37, Sarjapura Road, Ambalipura, Kaikondrahalli, Kasavanahalli, Bengaluru South City Corporation, Bengaluru, Bangalore South, Bengaluru Urban, Karnataka, 560103, India",police,VERIFY BEFORE USE
+U.Gate,,West,,,,,,NOT FOUND
+S.S.Nagar,,West,,,,,,NOT FOUND
+Magadi Road,,West,1,12.9744861,77.5512501,"Magadi Road Police Station, Magadi Road, Rajajinagar 6th Block, Dr Rajkumar Ward, Bengaluru West City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560023, India",police,VERIFY BEFORE USE
+H.Grounds,,West,,,,,,NOT FOUND
+City Market,,West,1,12.9649402,77.5761878,"Krishna Rajendra Market Police Station, Sultan Road, Cottonpete, Cheluvadi Palya, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560053, India",police,VERIFY BEFORE USE
+Upparpet,,West,1,12.9745091,77.5749573,"Upparpet Traffic Police Station, Tank Bund Road, Gandhinagar, Nehru Nagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560009, India",police,VERIFY BEFORE USE
+Upparpet,,West,2,12.9744833,77.5748342,"Upparpet Traffic Police Station, Dhanvanthari Road, Gandhinagar, Nehru Nagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560009, India",police,VERIFY BEFORE USE
+K G Halli,,East,,,,,,NOT FOUND
+Ashokanagar,,West,,,,,,NOT FOUND
+Cubbon Park,,West,1,12.9762147,77.5982300,"Cubbon Park Police Station, Kasturba Road, Sampangirama Nagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560001, India",police,VERIFY BEFORE USE
+Cubbon Park,,West,2,12.9762399,77.5983458,"Cubbon Park Police Station, Kasturba Road, Sampangirama Nagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560001, India",police,VERIFY BEFORE USE
+Shivajinagar,,East,1,12.9879116,77.6035733,"Shivajinagar Traffic Police Station, Hazrat Kambal Posh Road, Shivajinagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560051, India",police,VERIFY BEFORE USE
+Shivajinagar,,East,2,12.9825702,77.6070982,"Commercial Street Police Station, Commercial Street, Commercial Street Shopping Area, Shivajinagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560001, India",police,VERIFY BEFORE USE
+Chamarajpet,,South,,,,,,NOT FOUND
+Pulikeshinagar,,East,,,,,,NOT FOUND

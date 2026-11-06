@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoadSafe AI | Urban Traffic Intelligence</title>
+
+<link rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0b1120;
+        color: #f1f5f9;
+    }
+
+    header {
+        padding: 20px 5%;
+        background: #111b2e;
+        border-bottom: 1px solid #26344b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 23px;
+    }
+
+    header h1 span {
+        color: #38bdf8;
+    }
+
+    header p {
+        color: #94a3b8;
+        margin: 6px 0 0;
+    }
+
+    .status {
+        color: #86efac;
+        font-size: 13px;
+    }
+
+    main {
+        padding: 24px 5%;
+    }
+
+    .intro {
+        margin-bottom: 22px;
+    }
+
+    .intro h2 {
+        margin-bottom: 8px;
+    }
+
+    .intro p {
+        color: #94a3b8;
+        line-height: 1.6;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+
+    .card {
+        background: #111b2e;
+        border: 1px solid #26344b;
+        border-radius: 14px;
+        padding: 18px;
+    }
+
+    .stat-label {
+        color: #94a3b8;
+        font-size: 13px;
+    }
+
+    .stat-number {
+        font-size: 29px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .red {
+        color: #fb7185;
+    }
+
+    .orange {
+        color: #fb923c;
+    }
+
+    .green {
+        color: #4ade80;
+    }
+
+    .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.7fr) minmax(250px, 1fr);
+        gap: 18px;
+    }
+
+    h3 {
+        margin-top: 0;
+    }
+
+    #map {
+        height: 410px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 15px;
+    padding: 12px 14px;
+    background: #0b1120;
+    border: 1px solid #26344b;
+    border-radius: 10px;
+    color: #cbd5e1;
+    font-size: 13px;
+}
+
+.legend span {
+    display: inline-flex;
+    align-items: center;
+}
+
+    .dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+
+    .zone {
+        padding: 13px 0;
+        border-bottom: 1px solid #26344b;
+        cursor: pointer;
+    }
+
+    .zone:last-child {
+        border-bottom: none;
+    }
+
+    .zone strong {
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .zone small {
+        display: block;
+        color: #94a3b8;
+        line-height: 1.5;
+    }
+
+    button {
+        background: #0284c7;
+        color: white;
+        border: none;
+        padding: 12px 15px;
+        border-radius: 9px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 5px 5px 5px 0;
+    }
+
+    button:hover {
+        background: #0369a1;
+    }
+
+    .secondary {
+        background: #26344b;
+    }
+
+    .message {
+        margin-top: 14px;
+        background: #0b1120;
+        border-radius: 9px;
+        padding: 12px;
+        color: #cbd5e1;
+        font-size: 13px;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+    }
+    .risk-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+    background-color: #64748b;
+    color: white;
+}
+
+    .notice {
+        color: #fbbf24;
+        font-size: 12px;
+        line-height: 1.6;
+        margin-top: 15px;
+    }
+
+    footer {
+        text-align: center;
+        padding: 25px;
+        color: #64748b;
+        font-size: 12px;
+    }
+
+
+    .hero {
+        position: relative; overflow: hidden; padding: 30px;
+        margin: 0 0 22px; border: 1px solid #2563eb;
+        border-radius: 20px; background: linear-gradient(120deg,#102a4c 0%,#14213d 55%,#102b35 100%);
+        box-shadow: 0 18px 50px rgba(2,132,199,.14);
+    }
+    .hero:after { content:""; position:absolute; width:260px;height:260px;right:-70px;top:-100px;
+        border-radius:50%;background:rgba(56,189,248,.10); }
+    .hero .eyebrow { color:#7dd3fc;text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800; }
+    .hero h2 { font-size:clamp(26px,4vw,42px);line-height:1.12;max-width:760px;margin:12px 0; }
+    .hero p { color:#cbd5e1;max-width:760px;line-height:1.65; }
+    .hero-actions { display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;position:relative;z-index:1; }
+    .hero-actions a { display:inline-block;text-decoration:none;background:#38bdf8;color:#082f49;padding:12px 17px;
+        border-radius:10px;font-weight:800; }
+    .hero-actions a.alt {background:#263c59;color:#e2e8f0;border:1px solid #45617f;}
+    .feature-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px;position:relative;z-index:1; }
+    .feature-chip { background:rgba(2,6,23,.28);border:1px solid rgba(148,163,184,.2);border-radius:12px;padding:12px; }
+    .feature-chip strong {display:block;color:#f8fafc;margin-bottom:4px}.feature-chip small{color:#a9bbd0}
+    .primary-feature { border:1px solid #2563eb;box-shadow:0 12px 35px rgba(37,99,235,.10); }
+    input, select { width:100%;padding:11px 12px;margin:7px 0 13px;border-radius:8px;border:1px solid #475569;
+        background:#0b1120;color:#f8fafc;font:inherit; }
+    label {display:block;color:#cbd5e1;font-size:13px;font-weight:600}
+    button:disabled {opacity:.55;cursor:wait}
+    .logout-btn { color:#e2e8f0;text-decoration:none;background:#26344b;padding:10px 14px;border-radius:8px;font-weight:700; }
+    .route-option { padding:13px;margin:9px 0;border:1px solid #475569;border-radius:10px;background:#0b1729;cursor:pointer; }
+    .route-option.recommended {border-color:#22c55e;background:rgba(34,197,94,.09)}
+    .route-option p {color:#cbd5e1;margin:6px 0}
+    .route-option.alt {border-color:#3b82f6}
+    .route-option.other {border-color:#eab308}
+    .start-wrap {position:relative}
+    .start-wrap input {padding-right:46px}
+    .locate-btn {position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:34px;padding:0;margin:0;border-radius:6px;font-size:16px;line-height:1}
+    .route-legend {display:flex;gap:18px;flex-wrap:wrap;color:#94a3b8;font-size:13px;margin-top:10px}
+    .route-legend span {display:flex;align-items:center;gap:6px}
+    .lg {display:inline-block;width:26px;border-top:4px solid}
+    .lg-green {border-color:#22c55e} .lg-blue {border-color:#3b82f6} .lg-yellow {border-color:#eab308}
+    .tag {display:inline-block;padding:3px 8px;border-radius:20px;background:#164e63;color:#a5f3fc;font-size:11px;font-weight:700}
+    .control-row {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    @media(max-width:760px){.feature-grid{grid-template-columns:1fr}.control-row{grid-template-columns:1fr}.hero{padding:22px}}
+
+    @media (max-width: 760px) {
+        .stats {
+            grid-template-columns: 1fr;
+        }
+
+        .layout {
+            grid-template-columns: 1fr;
+        }
+
+        #map {
+            height: 330px;
+        }
+
+        main {
+            padding: 20px 4%;
+        }
+    }
+</style>
+
+
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h1>🛡️ RoadSafe <span>AI</span></h1>
+        <p>Urban Traffic Intelligence & Route Recommendation</p>
+    </div>
+    <div class="status">● DEMO SYSTEM ONLINE</div>
+<a href="/logout" class="logout-btn"
+   onclick="return confirm('Are you sure you want to logout?');">
+   Logout
+</a>
+</header>
+
+<main>
+
+
+<section class="intro">
+    <h2>Welcome, {{ session.get('user_name', 'User') }}!</h2>
+<p>Urban Traffic Dashboard — analyse congestion, explore risk hotspots and compare routes.</p>
+</section>
+
+
+
+<section class="stats">
+
+   
+    <div class="card">
+        <div class="stat-label">High historical-risk stations</div>
+        <div class="stat-number red" id="highCount">0</div>
+    </div>
+
+    <div class="card">
+        <div class="stat-label">Moderate historical-risk stations</div>
+        <div class="stat-number orange" id="mediumCount">0</div>
+    </div>
+
+    <div class="card">
+        <div class="stat-label">Lower historical-risk stations</div>
+        <div class="stat-number green" id="lowCount">0</div>
+    </div>
+
+</section>
+<section class="card" id="historicalAccidents"
+         style="margin-bottom: 22px;">
+
+    <h3>📊 Bengaluru Accident Statistics — 2023</h3>
+
+    <p style="color: #94a3b8;">
+        Historical police-station data. These figures are not live predictions.
+    </p>
+
+   <div class="stats">
+    <div class="card">
+        <div class="stat-label">Police Stations</div>
+        <div class="stat-number" id="stationCount">—</div>
+    </div>
+
+
+<div class="card">
+    <div class="stat-label">Reported Accident Cases</div>
+    <div class="stat-number" id="accidentTotal">—</div>
+</div>
+
+<div class="card">
+    <div class="stat-label">Fatal Cases</div>
+    <div class="stat-number red" id="fatalTotal">—</div>
+</div>
+
+<div class="card">
+    <div class="stat-label">People Killed</div>
+    <div class="stat-number red" id="peopleKilledTotal">—</div>
+</div>
+
+<div class="card">
+    <div class="stat-label">People Injured</div>
+    <div class="stat-number orange" id="peopleInjuredTotal">—</div>
+</div>
+
+
+</div>
+
+    <h3>Top 10 Stations by Reported Accident Cases</h3>
+
+    <div id="stationAccidentList" aria-live="polite">
+        Loading historical accident statistics...
+    </div>
+
+</section>
+
+<section class="card primary-feature" id="routePlanner" style="margin-top:0; margin-bottom:22px;">
+    <h3>🧭 Smart Alternative Route Recommendation</h3>
+    <p style="color:#94a3b8;">Find the safest way to your destination, based on years of local accident records.</p>
+    <div class="control-row">
+        <div><label for="routeStart">Starting location</label><div class="start-wrap"><input type="text" id="routeStart" placeholder="e.g. Majestic, Bengaluru"><button type="button" id="useMyLocationBtn" class="locate-btn" title="Use my current location" aria-label="Use my current location">📍</button></div></div>
+        <div><label for="routeDestination">Destination</label><input type="text" id="routeDestination" placeholder="e.g. Whitefield, Bengaluru"></div>
+    </div>
+    <button id="findRoutesBtn">🔍 Compare & Recommend Routes</button>
+    <div id="routeResults" class="message" aria-live="polite">Enter a start and destination to compare route options.</div>
+    <div class="route-legend"><span><i class="lg lg-green"></i>Safest</span><span><i class="lg lg-blue"></i>Alternative</span><span><i class="lg lg-yellow"></i>Other paths</span><span><i class="dot" style="background:#ec4899;margin:0"></i>Source</span><span><i class="dot" style="background:#a855f7;margin:0"></i>Destination</span></div>
+</section>
+<section class="layout">
+
+    <div class="card">
+        <h3>🗺️ Accident Risk Map</h3>
+
+        <div class="map-mode" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+            <button type="button" class="mode-btn" data-mode="risk" onclick="setMapMode('risk')">Accident Risk</button>
+            <button type="button" class="mode-btn" data-mode="traffic" onclick="setMapMode('traffic')">Live Traffic</button>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="legend">
+            <div id="legendRisk" style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+                <span><i class="dot" style="background:#ff4d4d"></i> High</span>
+                <span><i class="dot" style="background:#ffae42"></i> Moderate</span>
+                <span><i class="dot" style="background:#35d07f"></i> Low</span>
+            </div>
+            <div id="legendTraffic" style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+                <strong style="color:#f1f5f9">Traffic now:</strong>
+                <span><i class="dot" style="background:#e11d2e"></i> High</span>
+                <span><i class="dot" style="background:#ff8c00"></i> Average</span>
+                <span><i class="dot" style="background:#86efac"></i> Low</span>
+                <span id="trafficSourceNote" style="color:#94a3b8"></span>
+            </div>
+            <span><i class="dot" style="background:#38bdf8"></i> Your location</span>
+        </div>
+    </div>
+
+    <div class="card">
+
+        
+
+        <h3 style="margin-top:22px">📍 Location & Alerts</h3>
+
+        <div class="monitor-controls">
+    <button onclick="enableLocation()">
+        ▶ Start Monitoring
+    </button>
+
+    <button class="secondary" onclick="stopAlerts()">
+        Stop Monitoring
+    </button>
+</div>
+
+<div class="demo-controls" style="margin-top:12px;">
+    <h4>🧪 Demo & Testing Controls</h4>
+
+    <button class="secondary" onclick="testVoiceAlert()">
+        Test Voice Alert
+    </button>
+
+    <button class="secondary" onclick="simulateLocation()">
+        Simulate Location
+    </button>
+</div>
+        <div class="message" id="locationStatus" aria-live="polite">
+            Connecting to the database...
+        </div>
+        
+<div class="message" id="liveRiskPanel" role="status" aria-live="polite">
+    <h3>Live Risk Alert</h3>
+
+    <p>
+        <strong>Nearest Zone:</strong>
+        <span id="nearestZoneName">Waiting for location...</span>
+    </p>
+
+    <p>
+        <strong>Risk Level:</strong>
+       <span id="nearestZoneRisk" class="risk-badge">Not available</span>
+    </p>
+
+    <p>
+        <strong>Distance:</strong>
+        <span id="nearestZoneDistance">Not available</span>
+    </p>
+
+    <p id="nearestZoneWarning">
+        Enable location or use Simulate Location to test the panel.
+    </p>
+
+    
+</div>
+
+<div class="message" id="riskExplanation" aria-live="polite">
+            <strong>Road Risk Explainer</strong><br>
+            Select a map marker or zone to view its explanation.
+        </div>
+
+    </div>
+</section>
+
+<section class="card" id="weatherSection" style="margin-top: 22px; margin-bottom: 22px;">
+    <h3>🌦️ Live Weather Conditions</h3>
+    <p id="weatherStatus">Waiting for GPS location...</p>
+    <div id="weatherDetails">
+        <p>Visibility: Waiting for data</p>
+        <p>Temperature: Waiting for data</p>
+        <p>Humidity: Waiting for data</p>
+        <p>Rainfall: Waiting for data</p>
+        <p>Wind Speed: Waiting for data</p>
+    </div>
+</section>
+
+<div class="card">
+    <h3>🚦 Risk Zone Details</h3>
+
+    <div id="zoneList">
+        Loading risk zones...
+    </div>
+</div>
+
+
+</main>
+
+<footer>
+    RoadSafe AI · Student Project Prototype · Illustrative sample data only
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+"use strict";
+
+// Sample zones are loaded from the Flask API.
+let zones = [];
+let zoneMarkers = [];
+// Initialize the Bengaluru accident-risk map
+const map = L.map("map").setView([12.9716, 77.5946], 11);
+
+// Display OpenStreetMap tiles
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors",
+    maxZoom: 19
+}).addTo(map);
+
+let currentNearestZone = null;
+let currentNearestDistance = null;
+
+let userMarker = null;
+let locationWatch = null;
+let currentLatitude = null;
+let currentLongitude = null;
+let currentVisibility = null;
+let weatherStatus = "Waiting for GPS location";
+async function fetchCurrentVisibility(lat, lng) {
+    weatherStatus = "Fetching current weather...";
+
+    try {
+        const url =
+            `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}` +
+            `&current=temperature_2m,relative_humidity_2m,precipitation,rain,showers,snowfall,weather_code,wind_speed_10m,visibility` +
+            `&timezone=auto`;
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("Weather API request failed.");
+        }
+
+        const data = await response.json();
+        const current = data.current;
+
+        if (!current || typeof current.visibility !== "number") {
+            throw new Error("Current weather data unavailable.");
+        }
+
+        currentVisibility = current.visibility;
+
+        const weatherDescriptions = {
+            0: "Clear sky",
+            1: "Mainly clear",
+            2: "Partly cloudy",
+            3: "Overcast",
+            45: "Fog",
+            48: "Depositing rime fog",
+            51: "Light drizzle",
+            53: "Moderate drizzle",
+            55: "Dense drizzle",
+            61: "Light rain",
+            63: "Moderate rain",
+            65: "Heavy rain",
+            71: "Light snowfall",
+            73: "Moderate snowfall",
+            75: "Heavy snowfall",
+            80: "Rain showers",
+            81: "Moderate rain showers",
+            82: "Heavy rain showers",
+            95: "Thunderstorm",
+            96: "Thunderstorm with hail",
+            99: "Thunderstorm with heavy hail"
+        };
+
+        const description =
+            weatherDescriptions[current.weather_code] || "Other weather condition";
+
+        weatherStatus =
+            current.visibility < 1000
+                ? "Poor visibility"
+                : current.visibility < 5000
+                    ? "Reduced visibility"
+                    : "Good visibility";
+                            const statusElement = document.getElementById("weatherStatus");
+        const detailsElement = document.getElementById("weatherDetails");
+
+        statusElement.textContent =
+    "Live weather retrieved successfully. Last updated: " +
+    new Date().toLocaleString();
+
+        detailsElement.replaceChildren();
+
+        const weatherLines = [
+            `Weather: ${description}`,
+            `Visibility: ${(current.visibility / 1000).toFixed(2)} km`,
+            `Temperature: ${current.temperature_2m} °C`,
+            `Humidity: ${current.relative_humidity_2m}%`,
+            `Rainfall: ${current.precipitation} mm`,
+            `Wind speed: ${current.wind_speed_10m} km/h`
+        ];
+
+        weatherLines.forEach(text => {
+            const p = document.createElement("p");
+            p.textContent = text;
+            detailsElement.appendChild(p);
+        });
+
+        return {
+            available: true,
+            visibility: current.visibility,
+            poorVisibility: current.visibility < 1000 ? 1 : 0,
+            status: weatherStatus,
+            description: description,
+            temperature: current.temperature_2m,
+            humidity: current.relative_humidity_2m,
+            precipitation: current.precipitation,
+            rain: current.rain,
+            showers: current.showers,
+            snowfall: current.snowfall,
+            windSpeed: current.wind_speed_10m
+        };
+
+    } catch (error) {
+        currentVisibility = null;
+        weatherStatus = "Weather data unavailable";
+
+        console.error("Weather error:", error);
+
+        return {
+            available: false,
+            status: weatherStatus
+        };
+    }
+}
+// Display the selected zone's explanation.
+function showZone(zone) {
+    const panel = document.getElementById("riskExplanation");
+
+    panel.replaceChildren();
+
+    const heading = document.createElement("strong");
+    heading.textContent = zone.name + " — " + zone.risk + " risk";
+
+    const explanation = document.createElement("div");
+    explanation.textContent =
+        zone.explanation || "No explanation available.";
+
+    explanation.style.marginTop = "8px";
+
+    panel.appendChild(heading);
+    panel.appendChild(explanation);
+}
+
+
+// Draw map markers, zone cards and summary counts.
+const riskColors = {
+    "High": "#ff4d4d",
+    "Moderate": "#ffae42",
+    "Lower": "#35d07f"
+};
+let mapMode = "risk";   // "risk" | "traffic"
+function setMapMode(mode) {
+    mapMode = mode;
+    document.querySelectorAll(".mode-btn").forEach(btn => {
+        const on = btn.dataset.mode === mode;
+        btn.style.background = on ? "#38bdf8" : "#26344b";
+        btn.style.color = on ? "#082f49" : "#e2e8f0";
+        btn.style.border = "1px solid #45617f";
+        btn.style.borderRadius = "8px";
+        btn.style.padding = "7px 12px";
+        btn.style.fontWeight = "700";
+        btn.style.cursor = "pointer";
+    });
+    document.getElementById("legendRisk").style.display = mode === "traffic" ? "none" : "flex";
+    document.getElementById("legendTraffic").style.display = mode === "risk" ? "none" : "flex";
+    renderZones();
+}
+const trafficColors = {
+    "High": "#e11d2e",      // red
+    "Moderate": "#ff8c00",  // orange
+    "Low": "#86efac"        // light green
+};
+const trafficText = {"High": "High traffic", "Moderate": "Average traffic", "Low": "Low traffic"};
+
+
+function renderZones() {
+    zoneMarkers.forEach(marker => map.removeLayer(marker));
+    zoneMarkers = [];
+
+    document.getElementById("zoneList").replaceChildren();
+
+    zones.forEach(zone => {
+        const riskColor = riskColors[zone.risk] || "#35d07f";
+        const trafficColor = trafficColors[zone.traffic] || riskColor;
+        // risk mode: fill = accident risk; traffic mode: fill = traffic;
+        const zoneColor = mapMode === "traffic" ? trafficColor : riskColor;
+        const markerStyle = {radius: 10, color: zoneColor, weight: 3, fillColor: zoneColor, fillOpacity: 0.85};
+
+        const marker = L.circleMarker([zone.lat, zone.lng], markerStyle).addTo(map);
+        zoneMarkers.push(marker);
+
+        marker.bindPopup(
+    "<b>" + zone.name + "</b><br>" +
+    "Accident risk: " + zone.risk + "<br>" +
+    "Traffic now: " + (trafficText[zone.traffic] || "Not available") + "<br>" +
+    (zone.explanation || "No historical details available.")
+);
+        marker.on("click", () => showZone(zone));
+
+        const item = document.createElement("div");
+        item.className = "zone";
+
+        const title = document.createElement("strong");
+        title.style.color = zoneColor;
+        title.textContent = "● " + zone.name + " — " + zone.risk + " risk" + (zone.traffic ? " · " + trafficText[zone.traffic] : "");
+
+        const description = document.createElement("small");
+        description.textContent = zone.explanation || "";
+
+        item.appendChild(title);
+        item.appendChild(description);
+
+        item.addEventListener("click", () => {
+            map.setView([zone.lat, zone.lng], 15);
+            marker.openPopup();
+            showZone(zone);
+        });
+
+        document.getElementById("zoneList").appendChild(item);
+    });
+
+    
+}
+async function loadHistoricalRiskSummary() {
+    try {
+        const response = await fetch("/api/historical-risk-summary");
+
+        if (!response.ok) {
+            throw new Error("Could not load historical risk summary.");
+        }
+
+        const data = await response.json();
+
+        document.getElementById("highCount").textContent = data.high;
+        document.getElementById("mediumCount").textContent = data.moderate;
+        document.getElementById("lowCount").textContent = data.low;
+
+    } catch (error) {
+        console.error("Historical risk summary error:", error);
+    }
+}
+
+
+// Retrieve risk zones from the SQLite database through Flask.
+async function loadZones() {
+    try {
+        let data, live = false;
+        try {
+            const response = await fetch("/api/live-traffic-zones");
+            if (!response.ok) throw new Error("live traffic unavailable");
+            const payload = await response.json();
+            data = payload.zones;
+            live = payload.live;
+        } catch (liveError) {
+            console.warn("Live traffic failed, using historical zones:", liveError);
+            const response = await fetch("/api/historical-zones");
+            if (!response.ok) throw new Error("The server could not return the risk zones.");
+            data = await response.json();
+        }
+
+        zones = data.map(zone => ({
+            name: zone.zone_name,
+            lat: Number(zone.latitude),
+            lng: Number(zone.longitude),
+            risk: zone.risk_level,
+            traffic: zone.traffic_level || null,
+            explanation: zone.explanation || ""
+        }));
+
+        renderZones();
+
+        const note = document.getElementById("trafficSourceNote");
+        if (note) {
+            note.textContent = live
+                ? "Live traffic · updated " + new Date().toLocaleTimeString()
+                : "Estimated traffic (live feed unavailable)";
+        }
+
+        document.getElementById("locationStatus").textContent =
+            "Database connected. " + zones.length + " risk zones loaded.";
+
+    } catch (error) {
+        console.error("Database loading error:", error);
+
+        document.getElementById("zoneList").textContent =
+            "Could not load risk zones.";
+
+        document.getElementById("locationStatus").textContent =
+            "Database connection failed. Check the Flask server and database.";
+    }
+}
+// Refresh traffic colours every 5 minutes.
+setInterval(loadZones, 5 * 60 * 1000);
+
+
+// Calculate distance between two coordinates in kilometres.
+function distanceKm(lat1, lon1, lat2, lon2) {
+    const rad = value => value * Math.PI / 180;
+
+    const dLat = rad(lat2 - lat1);
+    const dLon = rad(lon2 - lon1);
+
+    const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(rad(lat1)) *
+        Math.cos(rad(lat2)) *
+        Math.sin(dLon / 2) ** 2;
+
+    return 6371 * 2 *
+        Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+
+// Play a spoken message.
+function speak(message) {
+    if (!("speechSynthesis" in window)) {
+        return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(message);
+    utterance.lang = "en-IN";
+    utterance.rate = 1;
+
+    window.speechSynthesis.speak(utterance);
+}
+    
+function updateRiskPanel(userLat, userLng) {
+const nameElement = document.getElementById("nearestZoneName");
+const riskElement = document.getElementById("nearestZoneRisk");
+const distanceElement = document.getElementById("nearestZoneDistance");
+const warningElement = document.getElementById("nearestZoneWarning");
+
+
+if (!zones.length) {
+    nameElement.textContent = "Risk zones not loaded";
+    riskElement.textContent = "Unavailable";
+    distanceElement.textContent = "Unavailable";
+    warningElement.textContent =
+        "Waiting for the demo risk-zone data to load.";
+    return;
+}
+
+let nearestZone = null;
+let nearestDistance = Infinity;
+
+zones.forEach(zone => {
+    const distance = distanceKm(
+        userLat,
+        userLng,
+        zone.lat,
+        zone.lng
+    );
+
+    if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestZone = zone;
+    }
+});
+
+if (!nearestZone) {
+    nameElement.textContent = "No zone available";
+    riskElement.textContent = "Unavailable";
+    distanceElement.textContent = "Unavailable";
+    warningElement.textContent = "No risk zone could be identified.";
+    return;
+}
+
+currentNearestZone = nearestZone;
+currentNearestDistance = nearestDistance;
+
+nameElement.textContent = nearestZone.name;
+riskElement.textContent = nearestZone.risk;
+riskElement.className = "risk-badge";
+
+const riskLevel = nearestZone.risk.toLowerCase();
+
+if (riskLevel === "high") {
+    riskElement.style.backgroundColor = "#ef4444";
+} else if (riskLevel === "moderate") {
+    riskElement.style.backgroundColor = "#f59e0b";
+} else {
+    riskElement.style.backgroundColor = "#22c55e";
+}
+
+const distanceMetres = Math.round(nearestDistance * 1000);
+
+distanceElement.textContent = nearestDistance < 1
+    ? distanceMetres + " metres"
+    : nearestDistance.toFixed(2) + " km";
+
+if (nearestDistance <= 0.5) {
+    warningElement.textContent =
+        "Within 500 metres of a demo zone. Stay alert and follow road signs.";
+} else {
+    warningElement.textContent =
+        "Nearest historical-risk station identified. It is outside the 500-metre alert radius.";
+}
+
+
+}
+
+
+   
+
+
+// Test the browser's voice feature.
+function testVoiceAlert() {
+    if (!("speechSynthesis" in window)) {
+        document.getElementById("locationStatus").textContent =
+            "Voice alerts are not supported by this browser.";
+        return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const message = new SpeechSynthesisUtterance(
+        "RoadSafe AI test alert. Please stay alert and follow road signs."
+    );
+
+    message.onstart = () => {
+        document.getElementById("locationStatus").textContent =
+            "Voice test is playing.";
+    };
+
+    message.onerror = () => {
+        document.getElementById("locationStatus").textContent =
+            "Voice test could not play. Check browser and device sound.";
+    };
+
+    window.speechSynthesis.speak(message);
+}
+
+
+// Ask the browser for location and monitor proximity to demo zones.
+function enableLocation() {
+    if (!navigator.geolocation) {
+        document.getElementById("locationStatus").textContent =
+            "Your browser does not support location.";
+        return;
+    }
+
+    if (zones.length === 0) {
+        document.getElementById("locationStatus").textContent =
+            "Wait until the risk zones finish loading.";
+        return;
+    }
+
+    if (locationWatch !== null) {
+        navigator.geolocation.clearWatch(locationWatch);
+    }
+
+    document.getElementById("locationStatus").textContent =
+        "Requesting location permission...";
+
+    locationWatch = navigator.geolocation.watchPosition(position => {
+        const lat = position.coords.latitude;
+const lng = position.coords.longitude;
+const accuracy = position.coords.accuracy;
+
+currentLatitude = lat;
+currentLongitude = lng;
+
+fetchCurrentVisibility(lat, lng);
+
+// Browser GPS speed is measured in metres per second.
+// It may be null when the device cannot estimate speed.
+let speedKmh = null;
+
+if (
+    position.coords.speed !== null &&
+    Number.isFinite(position.coords.speed) &&
+    position.coords.speed >= 0
+) {
+    speedKmh = position.coords.speed * 3.6;
+}
+
+updateRiskPanel(lat, lng);
+
+        if (!userMarker) {
+            userMarker = L.circleMarker([lat, lng], {
+                radius: 8,
+                color: "#38bdf8",
+                fillColor: "#38bdf8",
+                fillOpacity: 1
+            }).addTo(map);
+
+            userMarker.bindPopup("Your current location");
+        } else {
+            userMarker.setLatLng([lat, lng]);
+        }
+
+        let nearest = null;
+        let nearestDistance = Infinity;
+
+        zones.forEach(zone => {
+            const distance = distanceKm(
+                lat, lng, zone.lat, zone.lng
+            );
+
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearest = zone;
+            }
+
+            // Illustrative alert radius: 500 metres.
+           if (distance <= 0.5) {
+                const now = Date.now();
+
+                if (
+                    lastAlertZone !== zone.name ||
+                    now - lastAlertTime > 60000
+                ) {
+                    lastAlertZone = zone.name;
+                    lastAlertTime = now;
+
+                    const riskLevel = zone.risk.toLowerCase();
+
+let alertMessage = "";
+
+if (riskLevel === "high") {
+    alertMessage = "Warning. High demo risk zone nearby. Please stay alert.";
+} else if (riskLevel === "moderate") {
+    alertMessage = "Caution. Moderate demo risk zone nearby. Please be careful.";
+} else if (riskLevel === "low") {
+    alertMessage = "You are near a low demo risk zone. Continue following road signs.";
+}
+
+if (alertMessage !== "") {
+    speak(alertMessage);
+}
+                }
+            }
+        });
+
+        if (nearest) {
+           const speedText = speedKmh === null
+    ? "Unavailable"
+    : speedKmh.toFixed(1) + " km/h";
+
+document.getElementById("locationStatus").textContent =
+    "GPS active | Speed: " + speedText +
+    " | GPS accuracy: ±" + Math.round(accuracy) + " m" +
+    (nearest
+        ? " | Nearest historical-risk station: " + nearest.name +
+          " (" + Math.round(nearestDistance * 1000) + " m away)"
+        : " | No risk zones available.");
+        }
+
+    }, error => {
+        console.error("Location error:", error);
+
+        document.getElementById("locationStatus").textContent =
+            "Could not access location. Check browser location permissions.";
+    }, {
+        enableHighAccuracy: true,
+        maximumAge: 30000,
+        timeout: 15000
+    });
+}
+
+
+// Stop speech and location monitoring.
+function stopAlerts() {
+    if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+    }
+
+    if (locationWatch !== null) {
+        navigator.geolocation.clearWatch(locationWatch);
+        locationWatch = null;
+    }
+
+    document.getElementById("locationStatus").textContent =
+        "Voice and location tracking stopped.";
+}
+
+
+// Load the database zones when the page opens.
+let simulatedMarker = null;
+
+
+function simulateLocation() {
+    if (!zones || zones.length === 0) {
+        document.getElementById("locationStatus").textContent =
+            "Please wait for risk stations to load.";
+        return;
+    }
+
+    const highZone = zones.find(
+        zone => String(zone.risk).toLowerCase() === "high"
+    );
+
+    if (!highZone) {
+        document.getElementById("locationStatus").textContent =
+            "No high-risk demo station is available.";
+        return;
+    }
+
+    // Move the map to the selected historical-risk station.
+    map.setView([highZone.lat, highZone.lng], 15);
+    updateRiskPanel(highZone.lat, highZone.lng);
+    if (simulatedMarker) {
+        map.removeLayer(simulatedMarker);
+    }
+    simulatedMarker = L.circleMarker([highZone.lat, highZone.lng], {
+        radius: 9, color: "#38bdf8", fillColor: "#38bdf8", fillOpacity: 1
+    }).addTo(map).bindPopup("Simulated demo location").openPopup();
+
+    const _liveStatus = document.getElementById("liveLocationStatus");
+    if (_liveStatus) _liveStatus.textContent =
+        "Simulated position near " + highZone.name + ". This is not your actual GPS location.";
+
+    document.getElementById("locationStatus").textContent =
+        "DEMO ALERT | Station: " + highZone.name;
+
+    const _liveStatus2 = document.getElementById("liveLocationStatus");
+    if (_liveStatus2) _liveStatus2.textContent =
+        "Demo only. Your real GPS location has not been changed.";
+
+    // Request the voice alert without opening a blocking popup.
+    if ("speechSynthesis" in window) {
+       window.speechSynthesis.cancel();
+
+const voices = window.speechSynthesis.getVoices();
+
+const differentVoice =
+    voices.find(v =>
+        /^en/i.test(v.lang) &&
+        /zira|samantha|karen|heera|female/i.test(v.name)
+    ) ||
+    voices.find(v =>
+        /^en/i.test(v.lang) && !v.default
+    );
+
+const message = new SpeechSynthesisUtterance(
+    "Demo warning. High historical-risk station: " +
+    highZone.name +
+    ". Please stay alert and follow road signs."
+);
+
+if (differentVoice) {
+    message.voice = differentVoice;
+}
+
+message.rate = 0.9;
+message.pitch = 1.15;
+
+window.speechSynthesis.speak(message);
+    }
+}
+
+async function getPanelAIPrediction() {
+    const result = document.getElementById("aiPredictionResult");
+    result.textContent = "Analysing traffic pattern and road-risk estimate...";
+    const hourChoice = document.getElementById("predictionHour").value;
+    const hour = hourChoice === "now" ? new Date().getHours() : Number(hourChoice);
+    const dayChoice = document.getElementById("predictionDay").value;
+    let weekday = (new Date().getDay() + 6) % 7;
+    if (dayChoice === "weekday") weekday = 1;
+    if (dayChoice === "weekend") weekday = 5;
+
+    let weather = null;
+    if (currentLatitude !== null && currentLongitude !== null) {
+        weather = await fetchCurrentVisibility(currentLatitude, currentLongitude);
+    }
+    const poorVisibility = weather && weather.available ? weather.poorVisibility : 0;
+    const params = new URLSearchParams({
+        hour, weekday, poor_visibility: poorVisibility,
+        festival: document.getElementById("festivalMode").checked ? 1 : 0,
+        event: document.getElementById("eventMode").checked ? 1 : 0
+    });
+
+    try {
+        const response = await fetch(`/api/predict?${params.toString()}`);
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Prediction request failed.");
+
+        result.replaceChildren();
+        const badge = document.createElement("div");
+        badge.className = "risk-badge";
+        badge.style.backgroundColor = String(data.risk).toLowerCase() === "high" ? "#ef4444" :
+            String(data.risk).toLowerCase() === "moderate" ? "#f59e0b" : "#22c55e";
+        badge.textContent = `${data.risk} estimated road risk`;
+        result.appendChild(badge);
+
+        const lines = [
+            `Analysis time: ${data.hour} · ${data.day} (${data.day_type})`,
+            `Estimated congestion: ${data.traffic_estimate}`,
+            `Why: ${data.traffic_reason}`,
+            `Weather visibility: ${weather && weather.available ? `${(weather.visibility / 1000).toFixed(2)} km (${weather.status})` : "Not available — prediction uses time/day only"}`,
+            currentNearestZone ? `Nearest historical station: ${currentNearestZone.name} (${currentNearestZone.risk} historical burden)` : "",
+            data.note
+        ];
+        lines.filter(Boolean).forEach(text => {
+            const p = document.createElement("p");
+            p.textContent = text;
+            p.style.margin = "8px 0";
+            result.appendChild(p);
+        });
+    } catch (error) {
+        console.error("AI prediction error:", error);
+        result.textContent = error.message || "Could not generate prediction. Check the Flask server.";
+    }
+}
+async function loadStationAccidents() {
+    const list = document.getElementById("stationAccidentList");
+
+    try {
+        const response = await fetch("/api/station-accidents");
+
+        if (!response.ok) {
+            throw new Error("Could not load accident statistics.");
+        }
+
+        const data = await response.json();
+
+        document.getElementById("stationCount").textContent =
+            data.record_count.toLocaleString("en-IN");
+
+        document.getElementById("accidentTotal").textContent =
+            data.total_cases.toLocaleString("en-IN");
+
+        const fatalTotal = data.stations.reduce(
+            (sum, station) => sum + Number(station.fatal_cases || 0),
+            0
+        );
+
+        document.getElementById("fatalTotal").textContent =
+            fatalTotal.toLocaleString("en-IN");
+            document.getElementById("peopleKilledTotal").textContent =
+    data.people_killed.toLocaleString("en-IN");
+
+document.getElementById("peopleInjuredTotal").textContent =
+    data.people_injured.toLocaleString("en-IN");
+
+        list.replaceChildren();
+
+        const topStations = data.stations.slice(0, 10);
+
+        topStations.forEach((station, index) => {
+            const item = document.createElement("div");
+            item.style.padding = "12px";
+            item.style.marginBottom = "8px";
+            item.style.borderRadius = "8px";
+            item.style.background = "rgba(148, 163, 184, 0.08)";
+
+            const heading = document.createElement("strong");
+            heading.textContent =
+                `${index + 1}. ${station.station}`;
+
+            const details = document.createElement("p");
+            details.style.margin = "6px 0 0";
+            details.style.color = "#94a3b8";
+            details.textContent =
+                `Zone: ${station.zone} | Cases: ${
+                    Number(station.total_cases).toLocaleString("en-IN")
+                } | Fatal cases: ${
+                    Number(station.fatal_cases).toLocaleString("en-IN")
+                }`;
+
+            item.append(heading, details);
+            list.appendChild(item);
+        });
+
+    } catch (error) {
+        list.textContent =
+            "Unable to load historical statistics. Check that the Flask server is running.";
+        console.error("Station accident data error:", error);
+    }
+}
+// ==========================================
+// SMART TRAFFIC & ALTERNATIVE ROUTE PLANNER
+// ==========================================
+
+let routeLayers = [];
+
+async function geocodeLocation(place) {
+    const url =
+        `https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(place + ", Bengaluru, India")}`;
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error("Location search service is unavailable.");
+    }
+
+    const data = await response.json();
+
+    if (!data.length) {
+        throw new Error("Location not found. Try another location name.");
+    }
+
+    return {
+        lat: Number(data[0].lat),
+        lng: Number(data[0].lon)
+    };
+}
+
+function clearRouteLayers() {
+    routeLayers.forEach(layer => map.removeLayer(layer));
+    routeLayers = [];
+}
+// ==========================================
+// TIME-BASED TRAFFIC CONGESTION ESTIMATION
+// ==========================================
+
+function estimateTrafficLevel() {
+    const now = new Date();
+    const hour = now.getHours();
+    const day = now.getDay();
+
+    // Weekend traffic pattern
+    if (day === 0 || day === 6) {
+        if (hour >= 11 && hour < 20) {
+            return {
+                level: "Moderate to High",
+                reason: "Weekend shopping and recreational travel"
+            };
+        }
+        return {
+            level: "Low to Moderate",
+            reason: "Weekend traffic pattern"
+        };
+    }
+
+    // Weekday traffic pattern
+    if (hour >= 8 && hour < 11) {
+        return {
+            level: "High",
+            reason: "Morning office and work commute"
+        };
+    }
+
+    if (hour >= 11 && hour < 16) {
+        return {
+            level: "Low to Moderate",
+            reason: "Afternoon working hours"
+        };
+    }
+
+    if (hour >= 16 && hour < 20) {
+        return {
+            level: "High",
+            reason: "Evening return commute"
+        };
+    }
+
+    if (hour >= 6 && hour < 8) {
+        return {
+            level: "Moderate",
+            reason: "Morning travel"
+        };
+    }
+
+    if (hour >= 20 && hour < 22) {
+        return {
+            level: "Moderate",
+            reason: "Evening travel"
+        };
+    }
+
+    return {
+        level: "Low",
+        reason: "Late-night or early-morning traffic"
+    };
+}
+let routeStartCoords = null;
+
+document.getElementById("useMyLocationBtn").addEventListener("click", () => {
+    const input = document.getElementById("routeStart");
+    const results = document.getElementById("routeResults");
+    if (!navigator.geolocation) { results.textContent = "Location is not supported on this device."; return; }
+    input.value = "Locating...";
+    navigator.geolocation.getCurrentPosition(pos => {
+        routeStartCoords = {lat: pos.coords.latitude, lng: pos.coords.longitude};
+        input.value = "📍 My current location";
+    }, () => {
+        routeStartCoords = null;
+        input.value = "";
+        results.textContent = "Couldn't get your location. Please allow location access or type a place.";
+    }, {enableHighAccuracy: true, timeout: 10000});
+});
+document.getElementById("routeStart").addEventListener("input", () => { routeStartCoords = null; });
+
+async function fetchOsrm(points) {
+    const path = points.map(p => `${p.lng},${p.lat}`).join(";");
+    const alt = points.length === 2 ? "&alternatives=3" : "";
+    const r = await fetch(`https://router.project-osrm.org/route/v1/driving/${path}?overview=full&geometries=geojson&steps=false${alt}`);
+    if (!r.ok) return [];
+    const d = await r.json();
+    return d.code === "Ok" && d.routes ? d.routes : [];
+}
+
+// Candidate paths: OSRM alternatives plus detours through side points.
+async function collectCandidateRoutes(start, destination) {
+    const mid = {lat: (start.lat + destination.lat) / 2, lng: (start.lng + destination.lng) / 2};
+    const dx = destination.lng - start.lng, dy = destination.lat - start.lat;
+    const vias = [0.22, -0.22, 0.4, -0.4].map(f => ({lat: mid.lat + dx * f, lng: mid.lng - dy * f}));
+    const batches = await Promise.all([
+        fetchOsrm([start, destination]),
+        ...vias.map(v => fetchOsrm([start, v, destination]).then(rs => rs.slice(0, 1)))
+    ]);
+    const all = batches.flat();
+    const unique = [];
+    all.forEach(route => {
+        const isDup = unique.some(u => Math.abs(u.distance - route.distance) < 150 && Math.abs(u.duration - route.duration) < 30);
+        const tooLong = all.length && route.distance > all[0].distance * 1.8;
+        if (!isDup && !tooLong) unique.push(route);
+    });
+    return unique.slice(0, 8);
+}
+
+const ROUTE_STYLE = {
+    safest:      {color: "#22c55e", weight: 6, label: "Safest route"},
+    alternative: {color: "#3b82f6", weight: 5, label: "Alternative"},
+    other:       {color: "#eab308", weight: 4, label: "Other path"}
+};
+
+async function findAlternativeRoutes() {
+    const startInput = document.getElementById("routeStart").value.trim();
+    const destinationInput = document.getElementById("routeDestination").value.trim();
+    const results = document.getElementById("routeResults");
+    const button = document.getElementById("findRoutesBtn");
+
+    if (!destinationInput) { results.textContent = "Please enter your destination."; return; }
+    if (!startInput && !routeStartCoords) { results.textContent = "Enter a starting location or tap 📍 to use your current location."; return; }
+
+    button.disabled = true;
+    results.textContent = "Finding the safest route...";
+    try {
+        clearRouteLayers();
+        const start = routeStartCoords || await geocodeLocation(startInput);
+        const destination = await geocodeLocation(destinationInput);
+        const candidates = await collectCandidateRoutes(start, destination);
+        if (!candidates.length) throw new Error("No routes found. Try more specific place names.");
+
+        const hourChoice = document.getElementById("predictionHour")?.value || "now";
+        const hour = hourChoice === "now" ? new Date().getHours() : Number(hourChoice);
+        const dayChoice = document.getElementById("predictionDay")?.value || "today";
+        let weekday = (new Date().getDay() + 6) % 7;
+        if (dayChoice === "weekday") weekday = 1;
+        if (dayChoice === "weekend") weekday = 5;
+        const festival = document.getElementById("festivalMode")?.checked || false;
+        const event = document.getElementById("eventMode")?.checked || false;
+        const latlngs = candidates.map(route => route.geometry.coordinates.map(p => [p[1], p[0]]));
+        const analysisResponse = await fetch("/api/route-analysis", {
+            method: "POST", headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+                hour, weekday, festival, event,
+                routes: candidates.map((route, i) => ({
+                    distance_km: route.distance / 1000,
+                    duration_min: route.duration / 60,
+                    coordinates: latlngs[i]
+                }))
+            })
+        });
+        const analysis = await analysisResponse.json();
+        if (!analysisResponse.ok) throw new Error(analysis.error || "Could not rank routes.");
+
+        results.replaceChildren();
+        const heading = document.createElement("h4");
+        heading.textContent = "Route options";
+        results.appendChild(heading);
+
+        const bounds = [];
+        const order = {other: 0, alternative: 1, safest: 2};
+        [...analysis.routes].sort((a, b) => order[a.category] - order[b.category]).forEach(item => {
+            const coordinates = latlngs[item.route_index];
+            if (!coordinates) return;
+            const style = ROUTE_STYLE[item.category];
+            const line = L.polyline(coordinates, {
+                color: style.color, weight: style.weight, opacity: 0.95,
+                lineCap: "round", lineJoin: "round"
+            }).addTo(map);
+            line.bindPopup(`${style.label}<br>${item.distance_km} km · ~${item.estimated_duration_min} min<br>Safety score ${item.safety_score}/100`);
+            routeLayers.push(line);
+            bounds.push(...coordinates);
+            item._line = line;
+        });
+
+        analysis.routes.forEach(item => {
+            if (!item._line) return;
+            const style = ROUTE_STYLE[item.category];
+            if (item.category === "safest") item._line.bringToFront();
+            const option = document.createElement("div");
+            option.className = "route-option" + (item.category === "safest" ? " recommended" : item.category === "alternative" ? " alt" : " other");
+            const title = document.createElement("strong");
+            title.textContent = item.category === "safest" ? "✅ Recommended · Safest route" : style.label;
+            title.style.color = style.color;
+            const details = document.createElement("p");
+            details.textContent = `${item.distance_km} km · ~${item.estimated_duration_min} min · Safety score ${item.safety_score}/100`;
+            option.append(title, details);
+            option.addEventListener("click", () => { map.fitBounds(item._line.getBounds(), {padding: [30, 30]}); item._line.openPopup(); });
+            results.appendChild(option);
+        });
+        // Source: pink pin, distinct from the routes, zone dots and the purple destination pin.
+        const startIcon = L.divIcon({
+            className: "",
+            html: '<div style="width:26px;height:26px;background:#ec4899;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 0 0 3px rgba(236,72,153,.35),0 2px 6px rgba(0,0,0,.5)"></div>',
+            iconSize: [26, 26],
+            iconAnchor: [13, 26],
+            popupAnchor: [0, -26]
+        });
+        const startMarker = L.marker([start.lat, start.lng], {icon: startIcon, zIndexOffset: 900})
+            .addTo(map).bindPopup("<b>Source</b>").bindTooltip("Source", {permanent: true, direction: "left", offset: [-12, -12]});
+        // Destination: purple pin, distinct from the green/blue/yellow routes and red/orange/green risk dots.
+        const destIcon = L.divIcon({
+            className: "",
+            html: '<div style="width:26px;height:26px;background:#a855f7;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 0 0 3px rgba(168,85,247,.35),0 2px 6px rgba(0,0,0,.5)"></div>',
+            iconSize: [26, 26],
+            iconAnchor: [13, 26],
+            popupAnchor: [0, -26]
+        });
+        const endMarker = L.marker([destination.lat, destination.lng], {icon: destIcon, zIndexOffset: 1000})
+            .addTo(map).bindPopup("<b>Destination</b>").bindTooltip("Destination", {permanent: true, direction: "right", offset: [12, -12]});
+        routeLayers.push(startMarker, endMarker);
+        if (bounds.length) map.fitBounds(bounds, {padding: [30, 30]});
+    } catch (error) {
+        console.error("Route planner error:", error);
+        results.textContent = error.message || "Could not find routes. Check your internet connection.";
+    } finally {
+        button.disabled = false;
+    }
+}
+
+document.getElementById("findRoutesBtn")
+    .addEventListener("click", findAlternativeRoutes);
+fetch("/api/health").then(r => r.json()).then(data => {
+    if (data.status === "ok") document.querySelector(".status").style.display = "none";
+}).catch(() => {
+    document.querySelector(".status").textContent = "● SERVER CONNECTION ISSUE";
+});
+setMapMode("risk");
+loadZones();
+loadHistoricalRiskSummary();
+loadStationAccidents();
+</script>
+
+
+
+</section>
+
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RoadSafe AI | Welcome</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0b1120;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            padding: 45px 25px;
+            border: 1px solid #263449;
+            border-radius: 22px;
+            background: #111c2f;
+        }
+
+        .logo {
+            font-size: 58px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: clamp(32px, 6vw, 52px);
+            margin-bottom: 15px;
+        }
+
+        h1 span {
+            color: #38bdf8;
+        }
+
+        .subtitle {
+            color: #c0ccdc;
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 650px;
+            margin: 0 auto 30px;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .feature {
+            background: #1d2b40;
+            border: 1px solid #33465f;
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 14px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .primary {
+            background: #0284c7;
+            color: white;
+        }
+
+        .secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid #52647c;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .note {
+            color: #93a4ba;
+            font-size: 12px;
+            margin-top: 28px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <div class="logo">🚦</div>
+
+        <h1>Welcome to <span>RoadSafe AI</span></h1>
+
+        <p class="subtitle">
+            An AI-powered student prototype for analysing urban traffic patterns,
+            estimating congestion, identifying historical accident hotspots,
+            and recommending alternative routes.
+        </p>
+
+        <div class="features">
+            <div class="feature">🚦 Congestion Analysis</div>
+            <div class="feature">🧭 Alternative Routes</div>
+            <div class="feature">🤖 AI Risk Prediction</div>
+            <div class="feature">🌦️ Context-Aware Estimates</div>
+            <div class="feature">🗺️ Interactive Map</div>
+        </div>
+
+        <div class="buttons">
+            <a href="/dashboard" class="btn primary">Get Started →</a>
+            <a href="/login" class="btn secondary">Sign In</a>
+            <a href="/register" class="btn secondary">Create Account</a>
+        </div>
+
+        <p class="note">
+            Student demonstration project. Risk predictions and sample zones
+            are illustrative and are not verified real-world accident data.
+            Location access requires your permission.
+        </p>
+    </main>
+</body>
+</html>\n

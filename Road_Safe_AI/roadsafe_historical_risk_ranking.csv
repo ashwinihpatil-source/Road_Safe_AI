@@ -1,0 +1,49 @@
+historical_rank,station,zone,fatal_cases,non_fatal_cases,total_cases,people_killed,people_injured,historical_risk_score,historical_risk_category
+1,Kengeri,West,58,221,279,59,237,97.82,High
+2,Yalahanka,North,58,178,236,63,222,93.24,High
+3,Int. Aiport,North,59,173,232,61,215,92.47,High
+4,K R Puram,East,41,213,254,42,217,77.4,High
+5,Whitefield,East,43,180,223,44,163,74.94,High
+6,Kamakshipalya,West,40,201,241,41,202,74.55,High
+7,Electronic City,South,38,158,196,39,171,66.12,Moderate
+8,Peenya,North,32,160,192,32,191,59.21,Moderate
+9,Chikkajala,North,36,101,137,39,129,56.47,Moderate
+10,Bytarayanapura,West,19,163,182,19,125,44.9,Moderate
+11,Hebbala,North,24,120,144,24,118,44.41,Moderate
+12,Jalahalli,North,28,74,102,29,84,42.74,Moderate
+13,K S Layout,South,18,136,154,18,137,39.9,Lower
+14,Hennuru,North,23,80,103,24,84,37.93,Lower
+15,Yashawanthapura,North,21,85,106,22,82,36.38,Lower
+16,Thalagattapura,South,22,67,89,26,69,36.13,Lower
+17,Malleshwaram,North,18,81,99,18,88,32.01,Lower
+18,Hulimavu,South,16,92,108,16,117,31.32,Lower
+19,Rajajinagar,North,16,86,102,17,82,30.86,Lower
+20,Airport,East,17,80,97,17,80,30.74,Lower
+21,Banashankari,South,15,75,90,15,66,27.75,Lower
+22,Banasawadi,East,14,77,91,15,82,27.3,Lower
+23,Vijayanagar,West,16,63,79,16,66,27.17,Lower
+24,Micolayout,South,14,74,88,14,71,26.48,Lower
+25,Jayanagar,South,13,77,90,13,77,25.77,Lower
+26,Mahadevapura,East,11,82,93,12,72,24.62,Lower
+27,Madivala,South,14,59,73,14,53,24.33,Lower
+28,HSR Layout,South,16,40,56,17,56,24.27,Lower
+29,Indiranagar,East,12,73,85,12,62,24.07,Lower
+30,Halasooru,East,11,56,67,11,48,20.5,Lower
+31,R T Nagar,North,8,74,82,8,63,19.68,Lower
+32,Adugodi,South,10,53,63,10,67,18.93,Lower
+33,Basavanagudi,South,3,99,102,3,98,17.59,Lower
+34,Chickpet,West,9,37,46,10,31,15.9,Lower
+35,W.Garden,West,6,59,65,6,45,15.26,Lower
+36,Bellanduru,South,9,34,43,9,34,15.08,Lower
+37,U.Gate,West,7,47,54,8,44,15.07,Lower
+38,S.S.Nagar,West,8,39,47,8,33,14.66,Lower
+39,Magadi Road,West,7,43,50,7,42,14.1,Lower
+40,H.Grounds,West,6,50,56,6,47,13.97,Lower
+41,City Market,West,9,23,32,9,28,13.5,Lower
+42,Upparpet,West,9,20,29,9,18,13.07,Lower
+43,K G Halli,East,6,34,40,6,39,11.68,Lower
+44,Ashokanagar,West,6,32,38,6,30,11.39,Lower
+45,Cubbon Park,West,2,54,56,2,41,10.01,Lower
+46,Shivajinagar,East,6,21,27,6,19,9.81,Lower
+47,Chamarajpet,South,4,25,29,4,22,8.12,Lower
+48,Pulikeshinagar,East,4,23,27,4,24,7.83,Lower
